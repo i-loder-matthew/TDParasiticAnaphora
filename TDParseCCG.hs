@@ -7,7 +7,7 @@ module TDParseCCG where
 import Prelude hiding ((<>), (^), and)
 import Control.Monad (join, liftM2)
 import Control.Monad.State.Lazy (lift)
-import Lambda_calc ( Term, make_var, (#), (^) )
+import LambdaCalc ( Term, make_var, (#), (^) )
 import Memo
 import Data.Function ( (&), fix )
 import Data.Functor ( (<&>) )

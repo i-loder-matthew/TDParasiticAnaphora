@@ -8,7 +8,7 @@ module TDDemo where
 
 import Prelude hiding ((*), (!))
 import LambdaCalc
-import TDPretty ( showParse, showParse', prettyProof )
+import TDPretty ( showParse, showParse', prettyProof , outTrees', withDens, withoutDens)
 import TDParseCFG
 import Data.Maybe ( fromMaybe )
 
@@ -72,6 +72,7 @@ demoLex = map mkLex
                 ++ [( Nothing   , Dmp  , effS T :-> T                   )])
   , ("maryaling" , [( Just ml   , DP   , effW T E                       )])
   , ("sassyacat" , [( Just sc   , DP   , effW T E                       )])
+  , ("x"         , [( Just x1   , DP   , effR (V :-> E) (effW T E)      )])
   ]
   where
     first  (a,s,t) f = (f a, s, t)
@@ -98,6 +99,7 @@ demoLex = map mkLex
     so2 = fmapTerm S % pushTerm % so3
     eo = make_con "everyone"
     eo2 = fmapTerm (C T T) % pushTerm % eo
+    x1 = let g = make_var "g" in g ! (make_con "is_not" % ( g % make_con "x") % make_con "#") * (make_con "g" % make_con "1")
 
 
 -- a toy Context-Free Grammar
@@ -126,6 +128,9 @@ demoCFG = curry \case
 
 
 
+
+
+
 {- Test cases -}
 
 s1 = "the very big cat left"
@@ -140,10 +145,13 @@ s5 = "the cat near someone2 saw her"
 
 s6 = "marianne saved her2 paycheck but marianne's mom spent it"
 
+s7 = ""
+
 {- Testing helper function -}
 
 main :: IO ()
-main = mapM_ putStrLn $ ps ++ qs
+-- main = mapM_ putStrLn $ ps ++ qs
+main = mapM_ putStrLn ps
   where
-    ps = [s1,s2,s3,s4,s5] >>= fromMaybe ["No parse"] . showParse demoCFG demoLex
-    qs = fromMaybe ["No parse"] $ showParse' demoCFG demoLex (hasType T) prettyProof s6
+    ps = [s7] >>= fromMaybe ["No parse"] . showParse demoCFG demoLex
+    -- qs = fromMaybe ["No parse"] $ showParse' demoCFG demoLex (hasType T) prettyProof s6

@@ -1,0 +1,629 @@
+\documentclass{article}
+\usepackage{forest}
+\usepackage[margin=1in]{geometry}
+\newcommand{\comb}[1]{\textbf{\textsf{#1}}}
+\usepackage[T1]{fontenc}
+\begin{document}\scriptsize
+
+\begin{forest}
+for tree={parent anchor=south, child anchor=north, align=center}
+[$\texttt{B t}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{t -> t}$\\
+\comb{Lex}
+[\texttt{"not"}]]
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{v -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"bexists"}]]
+[$\texttt{v}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+[$\texttt{B t}$\\
+{\comb{<}}
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{B (R t)}$\\
+{\comb{R}, \comb{L}, \comb{>}}
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{B t -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"and"}]]
+[$\texttt{B t}$\\
+{\comb{D}, \comb{R}, \comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{C (B (R t))}$\\
+{\comb{L}, \comb{R}, \comb{L}, \comb{>}}
+[$\texttt{C (R (e -> t))}$\\
+{\comb{>}}
+[$\texttt{R (e -> t) -> C (R (e -> t))}$\\
+\comb{Lex}
+[\texttt{"pfoc"}]]
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+]
+]
+]
+\end{forest}
+
+
+\bigskip
+\begin{forest}
+for tree={parent anchor=south, child anchor=north, align=center}
+[$\texttt{B t}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{t -> t}$\\
+\comb{Lex}
+[\texttt{"not"}]]
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{v -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"bexists"}]]
+[$\texttt{v}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+[$\texttt{B t}$\\
+{\comb{D}, \comb{R}, \comb{<}}
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{B (R t)}$\\
+{\comb{R}, \comb{L}, \comb{>}}
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+[$\texttt{C (B t -> B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B t -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"and"}]]
+[$\texttt{C (B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{C (B (R t))}$\\
+{\comb{L}, \comb{R}, \comb{L}, \comb{>}}
+[$\texttt{C (R (e -> t))}$\\
+{\comb{>}}
+[$\texttt{R (e -> t) -> C (R (e -> t))}$\\
+\comb{Lex}
+[\texttt{"pfoc"}]]
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+]
+]
+]
+\end{forest}
+
+
+\bigskip
+\begin{forest}
+for tree={parent anchor=south, child anchor=north, align=center}
+[$\texttt{B t}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{t -> t}$\\
+\comb{Lex}
+[\texttt{"not"}]]
+[$\texttt{B t}$\\
+{\comb{D}, \comb{R}, \comb{>}}
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{v -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"bexists"}]]
+[$\texttt{v}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+[$\texttt{C (B t)}$\\
+{\comb{R}, \comb{<}}
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{B (R t)}$\\
+{\comb{R}, \comb{L}, \comb{>}}
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+[$\texttt{C (B t -> B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B t -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"and"}]]
+[$\texttt{C (B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{C (B (R t))}$\\
+{\comb{L}, \comb{R}, \comb{L}, \comb{>}}
+[$\texttt{C (R (e -> t))}$\\
+{\comb{>}}
+[$\texttt{R (e -> t) -> C (R (e -> t))}$\\
+\comb{Lex}
+[\texttt{"pfoc"}]]
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+]
+]
+]
+\end{forest}
+
+
+\bigskip
+\begin{forest}
+for tree={parent anchor=south, child anchor=north, align=center}
+[$\texttt{B t}$\\
+{\comb{D}, \comb{R}, \comb{R}, \comb{>}}
+[$\texttt{t -> t}$\\
+\comb{Lex}
+[\texttt{"not"}]]
+[$\texttt{C (B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{v -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"bexists"}]]
+[$\texttt{v}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+[$\texttt{C (B t)}$\\
+{\comb{R}, \comb{<}}
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{B (R t)}$\\
+{\comb{R}, \comb{L}, \comb{>}}
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+[$\texttt{C (B t -> B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B t -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"and"}]]
+[$\texttt{C (B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{C (B (R t))}$\\
+{\comb{L}, \comb{R}, \comb{L}, \comb{>}}
+[$\texttt{C (R (e -> t))}$\\
+{\comb{>}}
+[$\texttt{R (e -> t) -> C (R (e -> t))}$\\
+\comb{Lex}
+[\texttt{"pfoc"}]]
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+]
+]
+]
+\end{forest}
+
+
+\bigskip
+\begin{forest}
+for tree={parent anchor=south, child anchor=north, align=center}
+[$\texttt{B t}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{t -> t}$\\
+\comb{Lex}
+[\texttt{"not"}]]
+[$\texttt{B t}$\\
+{\comb{<}}
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{v -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"bexists"}]]
+[$\texttt{v}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{B (R t)}$\\
+{\comb{R}, \comb{L}, \comb{>}}
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{B t -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"and"}]]
+[$\texttt{B t}$\\
+{\comb{D}, \comb{R}, \comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{C (B (R t))}$\\
+{\comb{L}, \comb{R}, \comb{L}, \comb{>}}
+[$\texttt{C (R (e -> t))}$\\
+{\comb{>}}
+[$\texttt{R (e -> t) -> C (R (e -> t))}$\\
+\comb{Lex}
+[\texttt{"pfoc"}]]
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+]
+]
+\end{forest}
+
+
+\bigskip
+\begin{forest}
+for tree={parent anchor=south, child anchor=north, align=center}
+[$\texttt{B t}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{t -> t}$\\
+\comb{Lex}
+[\texttt{"not"}]]
+[$\texttt{B t}$\\
+{\comb{D}, \comb{R}, \comb{<}}
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{v -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"bexists"}]]
+[$\texttt{v}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{B (R t)}$\\
+{\comb{R}, \comb{L}, \comb{>}}
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+[$\texttt{C (B t -> B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B t -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"and"}]]
+[$\texttt{C (B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{C (B (R t))}$\\
+{\comb{L}, \comb{R}, \comb{L}, \comb{>}}
+[$\texttt{C (R (e -> t))}$\\
+{\comb{>}}
+[$\texttt{R (e -> t) -> C (R (e -> t))}$\\
+\comb{Lex}
+[\texttt{"pfoc"}]]
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+]
+]
+\end{forest}
+
+
+\bigskip
+\begin{forest}
+for tree={parent anchor=south, child anchor=north, align=center}
+[$\texttt{B t}$\\
+{\comb{D}, \comb{R}, \comb{R}, \comb{>}}
+[$\texttt{t -> t}$\\
+\comb{Lex}
+[\texttt{"not"}]]
+[$\texttt{C (B t)}$\\
+{\comb{R}, \comb{<}}
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{v -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"bexists"}]]
+[$\texttt{v}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{B (R t)}$\\
+{\comb{R}, \comb{L}, \comb{>}}
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+[$\texttt{C (B t -> B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B t -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"and"}]]
+[$\texttt{C (B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{C (B (R t))}$\\
+{\comb{L}, \comb{R}, \comb{L}, \comb{>}}
+[$\texttt{C (R (e -> t))}$\\
+{\comb{>}}
+[$\texttt{R (e -> t) -> C (R (e -> t))}$\\
+\comb{Lex}
+[\texttt{"pfoc"}]]
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+]
+]
+\end{forest}
+
+
+\bigskip
+\begin{forest}
+for tree={parent anchor=south, child anchor=north, align=center}
+[$\texttt{B t}$\\
+{\comb{<}}
+[$\texttt{B t}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{t -> t}$\\
+\comb{Lex}
+[\texttt{"not"}]]
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{v -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"bexists"}]]
+[$\texttt{v}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{B (R t)}$\\
+{\comb{R}, \comb{L}, \comb{>}}
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+]
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{B t -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"and"}]]
+[$\texttt{B t}$\\
+{\comb{D}, \comb{R}, \comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{C (B (R t))}$\\
+{\comb{L}, \comb{R}, \comb{L}, \comb{>}}
+[$\texttt{C (R (e -> t))}$\\
+{\comb{>}}
+[$\texttt{R (e -> t) -> C (R (e -> t))}$\\
+\comb{Lex}
+[\texttt{"pfoc"}]]
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+]
+\end{forest}
+
+
+\bigskip
+\begin{forest}
+for tree={parent anchor=south, child anchor=north, align=center}
+[$\texttt{B t}$\\
+{\comb{D}, \comb{R}, \comb{<}}
+[$\texttt{B t}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{t -> t}$\\
+\comb{Lex}
+[\texttt{"not"}]]
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B t -> B t}$\\
+{\comb{>}}
+[$\texttt{v -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"bexists"}]]
+[$\texttt{v}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+[$\texttt{B t}$\\
+{\comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{B (R t)}$\\
+{\comb{R}, \comb{L}, \comb{>}}
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+]
+[$\texttt{C (B t -> B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B t -> B t -> B t}$\\
+\comb{Lex}
+[\texttt{"and"}]]
+[$\texttt{C (B t)}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{B (R t) -> B t}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{C (B (R t))}$\\
+{\comb{L}, \comb{R}, \comb{L}, \comb{>}}
+[$\texttt{C (R (e -> t))}$\\
+{\comb{>}}
+[$\texttt{R (e -> t) -> C (R (e -> t))}$\\
+\comb{Lex}
+[\texttt{"pfoc"}]]
+[$\texttt{R (e -> t)}$\\
+\comb{Lex}
+[\texttt{"bathroom"}]]
+]
+[$\texttt{B e}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+]
+]
+\end{forest}
+
+
+
+\end{document}

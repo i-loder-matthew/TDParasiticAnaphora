@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage{forest}
+\usepackage[margin=1in]{geometry}
+\newcommand{\comb}[1]{\textbf{\textsf{#1}}}
+\usepackage[T1]{fontenc}
+\begin{document}\scriptsize
+
+\begin{forest}
+for tree={parent anchor=south, child anchor=north, align=center}
+[$\texttt{C (R (g x w) (W t t))}$\\
+{\comb{R}, \comb{>}}
+[$\texttt{R (g x w) (W t (R w t)) -> R (g x w) (W t t)}$\\
+\comb{Lex}
+[\texttt{"lower"}]]
+[$\texttt{C (R (g x w) (W t (R w t)))}$\\
+{\comb{L}, \comb{R}, \comb{R}, \comb{L}, \comb{>}}
+[$\texttt{C (R w (e -> t))}$\\
+{\comb{>}}
+[$\texttt{R w (e -> t) -> C (R w (e -> t))}$\\
+\comb{Lex}
+[\texttt{"pfoc"}]]
+[$\texttt{R w (e -> t)}$\\
+\comb{Lex}
+[\texttt{"left"}]]
+]
+[$\texttt{R (g x w) (W t e)}$\\
+\comb{Lex}
+[\texttt{"x"}]]
+]
+]
+\end{forest}
+
+
+
+\end{document}

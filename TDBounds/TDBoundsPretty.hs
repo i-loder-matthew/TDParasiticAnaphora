@@ -1,12 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE LambdaCase #-}
 
-module TDPretty where
+module TDBoundsPretty where
 
 import qualified Data.Sequence as DS
 import Data.List (intercalate)
 import Data.Maybe (Maybe, fromMaybe)
-import TDParseCFG
+import TDBoundsCFG
 import LambdaCalc (Term, eval, evalFinal, showTerm, showHask, showTex)
 import Prelude hiding ((<>))
 import Text.PrettyPrint hiding (Mode, cat)
@@ -23,7 +23,7 @@ prettyTy a = \case
   T           -> "t"
   V           -> "v"
   I           -> "w"
-  Ass         -> "g"
+  G           -> "g"
   (Eff f t)   -> prettyF a f <+> prettyParam a t
   (t1 :-> t2) ->
     case t1 of
@@ -38,9 +38,10 @@ prettyTy a = \case
 prettyF :: Doc -> F -> Doc
 prettyF a = \case
   S     -> "S"
-  R r   -> "R"  <+> prettyParam a r
-  W w   -> "W"  <+> prettyParam a w
-  C r o -> "C"  <+> prettyParam a r <+> prettyParam a o
+  B     -> "B"
+  R r   -> "R"  -- <+> prettyParam a r
+  W w   -> "W"  -- <+> prettyParam a w
+  C r o -> "C" --  <+> prettyParam a r -- <+> prettyParam a o
   U     -> "_"
   where
     prettyParam a r@(_ :-> _) = parens (prettyTy a r)
@@ -82,7 +83,7 @@ prettyOp = \case
   Eps    -> "\\comb{Eps},"
   D      -> "\\comb{D},"
   XL f o -> "\\comb{XL}" <+> prettyOp o
-  _ -> "Uh-Oh"
+  -- _ -> "Uh-Oh"
 
 prettyMode :: Mode -> Doc
 prettyMode [] = empty

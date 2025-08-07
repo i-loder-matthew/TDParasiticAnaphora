@@ -3,7 +3,7 @@
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE TupleSections #-}
 
-module TDParseCFG where
+module TDBoundsCFG where
 
 import Prelude hiding ( (<>), (^), Word, (*) )
 import Control.Monad ( join, liftM2 )
@@ -18,21 +18,15 @@ import Data.List ( isPrefixOf, stripPrefix )
 
 -- some syntactic categories
 data Cat
-  = CP | Cmp -- Clauses and Complementizers
-  | CBar | DBar | Cor -- Coordinators and Coordination Phrases
-  | DP | Det | Gen | GenD | Dmp -- (Genitive) Determiners and full Determiner Phrases
-  | NP | TN -- Transitive (relational) Nouns and full Noun Phrases
-  | VP | TV | DV | AV -- Transitive, Ditransitive, and Attitude Verbs and Verb Phrases
-  | AdjP | TAdj | Deg | AdvP | TAdv -- Modifiers
-  | Pred1 | Var | Prop | Conn1 | Conn2 | Q -- For DPL Syntax
+  = Pred1 | Var | Prop | Conn1 | Conn2 | Conn3 | Q | Op-- For DPL Syntax
   deriving (Eq, Show, Ord {-, Read-})
 
 -- semantic types
 infixr :->
 data Ty
   = E | T       -- Base types
-  | Ass           -- Types for variables (v. 2 - type for assignments)
-  | V
+  | G           -- Types for assignments
+  | V           -- Types for variables (v. 2 - type for assignments)
   | I           -- Types for worlds
   | Ty :-> Ty   -- Functions
   | Tpl Ty Ty   -- Tuples (Not sure if I'll need this yet - or if it will play nice)
@@ -40,7 +34,7 @@ data Ty
   deriving (Eq, Show, Ord {-, Read-})
 
 -- Effects
-data F = S | R Ty | W Ty | C Ty Ty | U
+data F = S | R Ty | W Ty | C Ty Ty | U | B
   deriving (Show, Ord {-, Read-})
 
 instance Eq F where
@@ -49,6 +43,7 @@ instance Eq F where
   S == S = True
   R t == R u = t == u
   W t == W u = t == u
+  B == _ = True
   C t u == C v w = t == v && u == w
   _ == _ = False
 
@@ -57,6 +52,7 @@ showNoIndices = \case
   S     -> "S"
   R _   -> "R"
   W _   -> "W"
+  B     -> "B"
   C _ _ -> "C"
   U     -> "_"
 
@@ -64,6 +60,7 @@ showNoIndices = \case
 effS     = Eff S
 effR r   = Eff (R r)
 effW w   = Eff (W w)
+effB     = Eff B
 effC r o = Eff (C r o)
 
 -- evaluated types (for scope islands)
@@ -93,7 +90,7 @@ data Syn
 
 -- Phrases to be parsed are lists of "signs" whose various morphological
 -- spellouts, syntactic categories, and types are known
-type Sense = (Term, Cat, Ty) -- a single sense of a single word
+type Sense = (Term, Cat, Ty)               -- a single sense of a single word
 type Word = (String, [Sense])              -- a word may have several senses
 type Phrase = [Word]
 type Lexicon = [Word]
@@ -123,7 +120,7 @@ protoParse cfg parse phrase             = concat <$> mapM help (bisect phrase)
         , cat <- cfg lcat rcat
         ]
 
-    mkIsland CP = Island
+    -- mkIsland CP = Island
     mkIsland _  = Branch
 
 -- Return all the grammatical constituency structures of a phrase by parsing it
@@ -308,20 +305,20 @@ openCombine combine (l, r) = map (\(m,d,t) -> (m, eval d, t)) . concat <$>
 
   -- if the left daughter requests something Functorial, try to find an
   -- `op` that would combine it with a `pure`ified right daughter
-  <+> case l of
-    Eff f a :-> b | appl f ->
-      combine (a :-> b,r) <&>
-      concatMap \(op,d,c) -> let m = UR f
-                              in [(m:op, opTerm m % d, c) | norm op m]
-    _ -> return []
+  -- <+> case l of
+  --   Eff f a :-> b | appl f ->
+  --     combine (a :-> b,r) <&>
+  --     concatMap \(op,d,c) -> let m = UR f
+  --                             in [(m:op, opTerm m % d, c) | norm op m]
+  --   _ -> return []
 
   -- vice versa if the right daughter requests something Functorial
-  <+> case r of
-    Eff f a :-> b | appl f ->
-      combine (l,a :-> b) <&>
-      concatMap \(op,d,c) -> let m = UL f
-                              in [(m:op, opTerm m % d, c) | norm op m]
-    _ -> return []
+  -- <+> case r of
+  --   Eff f a :-> b | appl f ->
+  --     combine (l,a :-> b) <&>
+  --     concatMap \(op,d,c) -> let m = UL f
+  --                             in [(m:op, opTerm m % d, c) | norm op m]
+  --   _ -> return []
 
   -- additionally, if both daughters are Applicative, then see if there's
   -- some mode `op` that would combine their underlying types
@@ -338,29 +335,29 @@ openCombine combine (l, r) = map (\(m,d,t) -> (m, eval d, t)) . concat <$>
   -- there remains some derivational ambiguity:
   -- W,W,R,R has 3 all-cancelling derivations not 2 due to local WR/RW ambig
   -- also the left arg of Eps is guaranteed to be comonadic, so extend it
-  <+> case (l,r) of
-    (Eff f a, Eff g b) | adjoint f g ->
-      combine (a, b) <&>
-      concatMap \(op,d,c) -> do (m,eff) <- [(Eps, id), (XL f Eps, Eff f)]
-                                return (m:op, opTerm m % d, eff c)
-    _ -> return []
+  -- <+> case (l,r) of
+  --   (Eff f a, Eff g b) | adjoint f g ->
+  --     combine (a, b) <&>
+  --     concatMap \(op,d,c) -> do (m,eff) <- [(Eps, id), (XL f Eps, Eff f)]
+  --                               return (m:op, opTerm m % d, eff c)
+  --   _ -> return []
 
-  <+> case l of
-    (a :-> Eff (R i) b) ->
-      combine (Eff (R i) (a :-> b), r) <&>
-      concatMap \(op,d,c) -> let m = EL (R i)
-                              in [(m:op, opTerm m % d, c) | norm op m]
-    _ -> return []
+  -- <+> case l of
+  --   (a :-> Eff (R i) b) ->
+  --     combine (Eff (R i) (a :-> b), r) <&>
+  --     concatMap \(op,d,c) -> let m = EL (R i)
+  --                             in [(m:op, opTerm m % d, c) | norm op m]
+  --   _ -> return []
 
-  <+> case r of
-    (a :-> Eff (R i) b) ->
-      combine (l, Eff (R i) (a :-> b)) <&>
-      concatMap \(op,d,c) -> let m = ER (R i)
-                              in [(m:op, opTerm m % d, c) | norm op m]
-    _ -> return []
+  -- <+> case r of
+  --   (a :-> Eff (R i) b) ->
+  --     combine (l, Eff (R i) (a :-> b)) <&>
+  --     concatMap \(op,d,c) -> let m = ER (R i)
+  --                             in [(m:op, opTerm m % d, c) | norm op m]
+  --   _ -> return []
 
   -- finally see if the resulting types can additionally be lowered/joined
-  <**> return [addD, addJ, return]
+  <**> return [addD, return]
 
   where
     infixr 6 <+>
@@ -378,6 +375,7 @@ addD :: (Mode, Term, Ty) -> [(Mode, Term, Ty)]
 addD = \case
   (op, d, Eff (C i a) a') | a == a', norm op D ->
     [(D:op, opTerm D % d, i)]
+  -- (op, d, Eff ())
   _ -> []
 
 -- these filters prevent generating "spurious" derivations, which are
@@ -391,7 +389,7 @@ norm op = \case
     ++ [ [ML U, D, MR U]
        , [A U, D, MR U]
        , [ML U, D, A U]
-       , [Eps]
+      --  , [Eps]
        ]
   J  f -> not $ (op `startsWith`) `anyOf`
     -- avoid higher-order detours for all J-able effects
@@ -400,7 +398,7 @@ norm op = \case
     ++ [ [A  f] ++ j ++ [MR f] | j <- [[J  f], []] ]
     ++ [ [ML f] ++ j ++ [A  f] | j <- [[J  f], []] ]
     -- ejections can feed (pointless) left over right joins
-    ++ [ e ++ [ML f] ++ [MR f] | e <- [[EL f], []] ]
+    ++ [ e ++ [ML f] ++ [MR f] | e <- [[EL f], []] ] 
     -- safe if no lexical FRFs
     ++ [           a ++ [Eps]  | a <- [[A  f], []] ]
     -- and all (non-split) inverse scope for commutative effects
@@ -409,10 +407,10 @@ norm op = \case
     ++ [      [A  f] ++ j ++ [A  f] | commutative f, j <- [[J f], []] ]
     ++ [ e ++ [MR f] ++ j ++ [ML f] | commutative f
                                     , e <- [[ER f], []], j <- [[J f], []] ]
-  -- morally, perhaps, we should keep E,A derivations, but since all ejectable
-  -- effects are commutative, these are equivalent to E-free J,R
-  -- (inverse-scope) derivations, and since even non-ejectable effects have J,R
-  -- derivations that we need to keep, it's easier to sweep these E ones out
+  -- -- morally, perhaps, we should keep E,A derivations, but since all ejectable
+  -- -- effects are commutative, these are equivalent to E-free J,R
+  -- -- (inverse-scope) derivations, and since even non-ejectable effects have J,R
+  -- -- derivations that we need to keep, it's easier to sweep these E ones out
   EL f -> not $ (op `startsWith`) `anyOf` [[ML f, FA], [MR U], [A f]]
   ER f -> not $ (op `startsWith`) `anyOf` [[MR f, BA], [ML U], [A f]]
 
@@ -475,22 +473,22 @@ opTerm = \case
        --    \l r a -> op l (r a) a
   -- Z    op ! -> l ! r ! a ! modeTerm op % l % (r % a) % a
 
-       --    \l r -> join (op l r)
+  --         \l r -> join (op l r)
   J  f -> op ! l ! r ! joinTerm f % (op % l % r)
 
-          -- \l r -> counit $ (\a -> op a <$> r) <$> l
+  --         -- \l r -> counit $ (\a -> op a <$> r) <$> l
   Eps  -> op ! l ! r ! counitTerm % (fmapTerm (W E) % (a ! fmapTerm (R E) % (op % a) % r) % l)
 
-          -- \l r -> op l r id
+  --         -- \l r -> op l r id
   D    -> op ! l ! r ! op % l % r % (a ! a)
 
-          -- \l r -> l =>> \l' -> o op l' r
+  --         -- \l r -> l =>> \l' -> o op l' r
   XL f o -> op ! l ! r ! extendTerm f % (l' ! opTerm o % op % l' % r) % l
 
-          -- \l r -> op (eject l) r
+  --         -- \l r -> op (eject l) r
   EL f -> op ! l ! r ! op % (ejectTerm f % l) % r
 
-          -- \l r -> op (eject l) r
+  --         -- \l r -> op (eject l) r
   ER f -> op ! l ! r ! op % l % (ejectTerm f % r)
 
 
@@ -516,6 +514,7 @@ fmapTerm = \case
   R (Tpl (V :-> E) I :-> T) -> k ! m ! c ! k % (m % c)
   R _   -> k ! m ! g ! k % (m % g)
   W _   -> k ! m ! _1 m * k % _2 m
+  B     -> k ! m ! k % _1 (m % g) * _2 (m % g) -- Note I flipped order from their write
   C _ _ -> k ! m ! c ! m % (a ! c % (k % a))
   _     -> k ! m ! make_con "fmap" % k % m
 pureTerm = \case

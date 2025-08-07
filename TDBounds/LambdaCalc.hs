@@ -47,8 +47,8 @@ openEval eval e s = case (e, s) of
   (,) (Lam v body)              (t:ts) -> eval (subst body v t) ts
   (,) (App t1 t2)               _      -> eval t1 (t2:s)
   (,) (Pair t1 t2)              []     -> Pair (ev t1) (ev t2)
-  (,) (Pair _  _ )              (a:_)  -> error ("trying to apply a pair: "
-                                                 ++ showTerm e ++ " to " ++ showTerm a)
+  -- (,) (Pair _  _ )              (a:_)  -> error ("trying to apply a pair: "
+  --                                                ++ showTerm e ++ " to " ++ showTerm a)
   (,) (Fst (ev -> Pair t1 _))   _      -> eval t1 s -- might not need eval here
   (,) (Fst (ev -> t))           _      -> unwind ev (Fst t) s
   (,) (Snd (ev -> Pair _ t2))   _      -> eval t2 s -- or here
